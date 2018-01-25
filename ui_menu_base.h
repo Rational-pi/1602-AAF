@@ -15,7 +15,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#inc
 #ifndef UI_MENU_BASE_H
 #define UI_MENU_BASE_H
 #include "ui_base.h"
