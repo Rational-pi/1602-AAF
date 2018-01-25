@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class Ui_Menu_Base : public Ui_Base
 {
-    Vector<char *> itemNames;
+    Vector<const char *> itemNames;
     int8_t pose;
 public:
     virtual void compute();

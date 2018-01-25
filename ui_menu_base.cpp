@@ -25,7 +25,7 @@ void Ui_Menu_Base::render(){
     app->lcd.clear();
     app->lcd.setCursor(0,0);
     if (pose!=itemNames.size()){
-        app->lcd.print(itemNames[pose]);
+        app->lcd.print((char*)itemNames[pose]);
     }else app->lcd.print("Return");
     app->lcd.setCursor(0,1);
     for (int var = 0; var < itemNames.size()+1; ++var) {

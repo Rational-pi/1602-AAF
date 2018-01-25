@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include "Arduino.h"
+
 template<typename Data>
 class Vector {
 public:
