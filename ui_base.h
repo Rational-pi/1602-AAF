@@ -24,6 +24,7 @@ class App;
 struct Ui_Base : public InputListener
 {
     Ui_Base(App *app);
+    virtual ~Ui_Base(){}
     virtual void compute();
     virtual void render();
     virtual void HandleClick();
