@@ -75,14 +75,18 @@ void App::run(Ui_Base *MainUI)
                     //Navigation
                     if(UiArray[UiID]->getBackToMain){
                         while (UiArray.size()!=1) {
+                            delete (Ui_Base*)UiArray[UiID--];
                             UiArray.pop_back();
-                            UiID--;
                         }
-                    }else if(UiArray[UiID]->exitRequested && UiID!=0){
-
-                        delete (Ui_Base*)UiArray[UiID];
-                        UiArray.pop_back();
-                        UiID--;
+                        UiArray[UiID]->needRendering=true;
+                    }else if(UiArray[UiID]->exitRequested){
+                        if(UiID==0){
+                            UiArray[UiID]->exitRequested=false;
+                        }else{
+                            delete (Ui_Base*)UiArray[UiID];
+                            UiArray.pop_back();
+                            UiArray[--UiID]->needRendering=true;
+                        }
                     }
 
                     //Encoder rotation event emiting

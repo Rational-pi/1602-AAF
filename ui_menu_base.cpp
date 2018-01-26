@@ -38,7 +38,7 @@ void Ui_Menu_Base::render(){
 }
 
 void Ui_Menu_Base::HandleClick(){
-    if (pose>actionVector.size()){
+    if (pose>=actionVector.size()){
         exit();
     }else if(actionVector[pose].factory){
         app->openSubUI(actionVector[pose].factory(app));
@@ -54,12 +54,9 @@ void Ui_Menu_Base::HandleDelta(int8_t delta){
     needRendering=true;
 }
 
-Ui_Menu_Base::Ui_Menu_Base(App *app):Ui_Base(app),pose(0){
-    addItem("NOT IMPLEMENTED!");
-}
+Ui_Menu_Base::Ui_Menu_Base(App *app):Ui_Base(app),pose(0){}
 
 void Ui_Menu_Base::addItem(const char* sting, UiFactory Fac){
-    app->openSubUI(Fac(app));
     actionVector.push_back(Action{sting,Fac});
 }
 
