@@ -22,7 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class Ui_Menu_Base : public Ui_Base
 {
-    Vector<const char *> itemNames;
+    typedef Ui_Base*(*UiFactory)(App*) ;
+    struct Action{
+        const char * menuTitle;
+        UiFactory factory;
+    };
+
+    Vector<Action> actionVector;
     int8_t pose;
 public:
     virtual void compute();
@@ -30,8 +36,10 @@ public:
     virtual void HandleClick();
     virtual void HandleDelta(int8_t delta);
     Ui_Menu_Base(App *app);
+    void addItem(const char* sting, UiFactory Fac);
 protected:
     void addItem(const char *sting);
+
 };
 
 #endif // UI_MENU_BASE_H

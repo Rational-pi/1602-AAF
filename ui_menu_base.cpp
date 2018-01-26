@@ -24,33 +24,33 @@ void Ui_Menu_Base::compute(){}
 void Ui_Menu_Base::render(){
     app->lcd.clear();
     app->lcd.setCursor(0,0);
-    if (pose!=itemNames.size()){
-        app->lcd.print((char*)itemNames[pose]);
+    if (pose!=actionVector.size()){
+        app->lcd.print((char*)actionVector[pose].menuTitle);
     }else app->lcd.print("Return");
     app->lcd.setCursor(0,1);
-    for (int var = 0; var < itemNames.size()+1; ++var) {
+    for (int var = 0; var < actionVector.size()+1; ++var) {
         if(pose==var){
             app->lcd.print((char)0xff);
-        }else if(var==itemNames.size()){
+        }else if(var==actionVector.size()){
             app->lcd.print((char)0x7f);
         }else app->lcd.print(var);
     }
 }
 
 void Ui_Menu_Base::HandleClick(){
-    switch (pose) {
-    case 1:
+    if (pose>actionVector.size()){
         exit();
-        break;
-    default:
+    }else if(actionVector[pose].factory){
+        app->openSubUI(actionVector[pose].factory(app));
+    }else{
         app->openSubUI(new Ui_Base(app));
-    }needRendering=true;
+    }
 }
 
 void Ui_Menu_Base::HandleDelta(int8_t delta){
     pose+=delta;
     if(pose<=0)pose=0;
-    if(pose>=itemNames.size())pose=itemNames.size();
+    if(pose>=actionVector.size())pose=actionVector.size();
     needRendering=true;
 }
 
@@ -58,6 +58,11 @@ Ui_Menu_Base::Ui_Menu_Base(App *app):Ui_Base(app),pose(0){
     addItem("NOT IMPLEMENTED!");
 }
 
+void Ui_Menu_Base::addItem(const char* sting, UiFactory Fac){
+    app->openSubUI(Fac(app));
+    actionVector.push_back(Action{sting,Fac});
+}
+
 void Ui_Menu_Base::addItem(const char* sting){
-    itemNames.push_back(sting);
+    actionVector.push_back(Action{sting,nullptr});
 }
