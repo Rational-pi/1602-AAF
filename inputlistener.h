@@ -17,16 +17,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef INPUTLISTENER_H
 #define INPUTLISTENER_H
+#include "inttypes.h"
 
-#include "app.h"
-
-struct InputListener
-{
-    InputListener(App *app);
+struct InputListener{
     virtual void HandleClick()=0;
     virtual void HandleDelta(int8_t delta){}
-protected:
-    App *app;
 };
 
 #endif // INPUTLISTENER_H

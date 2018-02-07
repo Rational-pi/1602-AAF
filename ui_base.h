@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define UI_BASE_H
 
 #include "inputlistener.h"
+#include "app.h"
 
 class App;
 struct Ui_Base : public InputListener
@@ -36,10 +37,11 @@ struct Ui_Base : public InputListener
     virtual void HandleClick();
     bool PullRequest(RequestType type);
     void Update();
-protected:
+protected: 
     void exit();
     bool needRendering;
     bool BackToMainRequest;
+    App *app;
 private:
     bool exitRequested;
 };

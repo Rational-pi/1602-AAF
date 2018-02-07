@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Arduino.h"
 
 Ui_Base::Ui_Base(App *app):
-    InputListener(app),
+    app(app),
     needRendering(true),
     exitRequested(false),
     BackToMainRequest(false)
