@@ -60,8 +60,8 @@ bool Ui_Base::PullRequest(Ui_Base::RequestType type){
         break;
     }
 
-    bool ret=RequestVar;
-    RequestVar=false;
+    bool ret=*RequestVar;
+    *RequestVar=false;
     return ret;
 }
 
