@@ -36,10 +36,14 @@ struct Ui_Base : public InputListener
     virtual void render();
     virtual void HandleClick();
     bool PullRequest(RequestType type);
+    /// a way for the outside to set needRendering to true
     void Update();
-protected: 
+protected:
+    /// call whenever the UI whant to be deleted, the parent ui will be set to active
     void exit();
+    /// set to true if a rendering is needed, will be set back to false whenever the action has been done
     bool needRendering;
+    /// set to true if need to go to main UI, will be set back to false whenever the action has been done
     bool BackToMainRequest;
     /// Main App (not owner)
     App *app;
