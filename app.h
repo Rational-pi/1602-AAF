@@ -25,7 +25,7 @@ class Ui_Base;
 
 class App
 {
-    Vector<Ui_Base *> UiArray;
+    Vector<Ui_Base *> UiVect;
     uint8_t UiID;
     void welcomeAnimation(uint8_t charDelay);
 public:

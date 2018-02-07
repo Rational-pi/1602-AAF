@@ -22,7 +22,7 @@ Ui_Base::Ui_Base(App *app):
     InputListener(app),
     needRendering(true),
     exitRequested(false),
-    getBackToMain(false)
+    BackToMainRequest(false)
 {
 
 }
@@ -45,6 +45,27 @@ void Ui_Base::HandleClick()
 {
     exit();
 }
+
+bool Ui_Base::PullRequest(Ui_Base::RequestType type){
+    bool *RequestVar;
+    switch (type) {
+    case RequestType::BackToMain:
+        RequestVar=&BackToMainRequest;
+        break;
+    case RequestType::exit:
+        RequestVar=&exitRequested;
+        break;
+    case RequestType::Rendering:
+        RequestVar=&needRendering;
+        break;
+    }
+
+    bool ret=RequestVar;
+    RequestVar=false;
+    return ret;
+}
+
+void Ui_Base::Update(){needRendering=true;}
 
 void Ui_Base::exit()
 {

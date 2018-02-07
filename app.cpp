@@ -50,7 +50,7 @@ void App::welcomeAnimation(uint8_t charDelay)
 /// App is the owner of subUi then
 void App::openSubUI(Ui_Base *subUi)
 {
-    UiArray.push_back(subUi);
+    UiVect.push_back(subUi);
     UiID++;
 }
 
@@ -61,9 +61,9 @@ void App::run(Ui_Base *MainUI)
         welcomeAnimation(50);
         int lastPose,thisPose;
         if (MainUI){
-            UiArray.push_back(MainUI);
+            UiVect.push_back(MainUI);
         }else{
-            UiArray.push_back(new UI_usrIOtester(this));
+            UiVect.push_back(new UI_usrIOtester(this));
         }
 
         while (true) {
@@ -73,40 +73,34 @@ void App::run(Ui_Base *MainUI)
             while (AppOnMode()){
                 /*UI*/{
                     //Navigation
-                    if(UiArray[UiID]->getBackToMain){
-                        while (UiArray.size()!=1) {
-                            delete (Ui_Base*)UiArray[UiID--];
-                            UiArray.pop_back();
+                    if(UiVect[UiID]->PullRequest(Ui_Base::RequestType::BackToMain)){
+                        while (UiVect.size()!=1) {
+                            delete UiVect[UiID--];
+                            UiVect.pop_back();
                         }
-                        UiArray[UiID]->needRendering=true;
-                    }else if(UiArray[UiID]->exitRequested){
-                        if(UiID==0){
-                            UiArray[UiID]->exitRequested=false;
-                        }else{
-                            delete (Ui_Base*)UiArray[UiID];
-                            UiArray.pop_back();
-                            UiArray[--UiID]->needRendering=true;
-                        }
-                    }
+                        UiVect[UiID]->Update();
+                    }else if(UiVect[UiID]->PullRequest(Ui_Base::RequestType::exit) && UiID!=0){
+                        delete UiVect[UiID];
+                        UiVect.pop_back();
+                        UiVect[--UiID]->Update();
+                    }Ui_Base *CurrentUi=UiVect[UiID];
 
                     //Encoder rotation event emiting
                     thisPose=RotaryENcoder::getPose();
                     if (thisPose!=lastPose){
-                        UiArray[UiID]->HandleDelta(thisPose-lastPose);
+                        CurrentUi->HandleDelta(thisPose-lastPose);
                         lastPose=thisPose;
                     }
 
                     //Encoder click event emmiting
-                    if(RotaryENcoder::clicked())UiArray[UiID]->HandleClick();
+                    if(RotaryENcoder::clicked())CurrentUi->HandleClick();
 
                     //Compute
-                    UiArray[UiID]->compute();
+                    CurrentUi->compute();
 
                     //Render
-                    if(UiArray[UiID]->needRendering){
-                        UiArray[UiID]->render();
-                        UiArray[UiID]->needRendering=false;
-                    }
+                    if(CurrentUi->PullRequest(Ui_Base::RequestType::Rendering))
+                        CurrentUi->render();
                 }
                 AppLoop();
 

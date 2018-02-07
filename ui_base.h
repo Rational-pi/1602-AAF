@@ -23,18 +23,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class App;
 struct Ui_Base : public InputListener
 {
+    enum class RequestType{
+        BackToMain,
+        exit,
+        Rendering,
+    };
+
     Ui_Base(App *app);
     virtual ~Ui_Base(){}
     virtual void compute();
     virtual void render();
     virtual void HandleClick();
+    bool PullRequest(RequestType type);
+    void Update();
 protected:
     void exit();
     bool needRendering;
-    bool getBackToMain;
+    bool BackToMainRequest;
 private:
     bool exitRequested;
-    friend class App;
 };
 
 #endif // UI_BASE_H
