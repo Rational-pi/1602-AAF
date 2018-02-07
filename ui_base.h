@@ -41,6 +41,7 @@ protected:
     void exit();
     bool needRendering;
     bool BackToMainRequest;
+    /// Main App (not owner)
     App *app;
 private:
     bool exitRequested;

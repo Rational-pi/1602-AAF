@@ -55,19 +55,18 @@ void App::openSubUI(Ui_Base *subUi)
 }
 
 
-void App::run(Ui_Base *MainUI)
+void App::run()
 {
     /*APP*/{
         welcomeAnimation(50);
         int lastPose,thisPose;
-        if (MainUI){
-            UiVect.push_back(MainUI);
-        }else{
-            UiVect.push_back(new UI_usrIOtester(this));
-        }
-
         while (true) {
-            AppInit();
+            Ui_Base *MainUI=AppInit();
+            if (MainUI){
+                UiVect.push_back(MainUI);
+            }else{
+                UiVect.push_back(new UI_usrIOtester(this));
+            }
             RotaryENcoder::initRotary();
             lastPose=RotaryENcoder::getPose();
             while (AppOnMode()){
