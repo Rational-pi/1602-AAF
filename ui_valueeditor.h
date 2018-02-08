@@ -7,7 +7,7 @@
 #define EditorBuilder(childType,member)\
     [](App* a){\
         childType* app=static_cast<childType*>(a);\
-        return (Ui_Base*)new Ui_ValueEditor<int>(a,&(app->member));\
+        return (Ui_Base*)new Ui_ValueEditor<decltype(app->member)>(a,&(app->member));\
     }\
 
 template<typename Data>
@@ -17,8 +17,13 @@ public:
     Ui_ValueEditor(App *app,Data *EditedVal):
         Ui_Base(app),
         EditedVal(EditedVal),
-        pitch(0.1),
-        currentState(state::drawVal){}
+        currentState(state::drawVal){
+        Data testVal=0;
+        testVal+=0.01;
+        if(testVal==0.01)/*not integer*/
+            pitch=0.1;
+        else pitch=1;
+    }
     virtual void compute(){}
     virtual void render(){
         app->lcd.clear();
@@ -41,6 +46,7 @@ public:
             currentState=state::drawVal;
             break;
         }
+        needRendering=true;
     }
     virtual void HandleDelta(int8_t delta){
         switch (currentState) {
@@ -50,6 +56,7 @@ public:
         case state::menu:
             break;
         }
+        needRendering=true;
     }
     float pitch;
 private:
