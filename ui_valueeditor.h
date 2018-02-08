@@ -6,12 +6,8 @@
 /// return a fuction that build a value editor linked to the public member "member" of the app child "childType"
 #define EditorBuilder(childType,member)\
     [](App* a){\
-        childType* app=dynamic_cast<childType*>(a);\
-        if (app) return (Ui_Base*)new Ui_ValueEditor<int>(a,&(app->member));\
-        else {\
-            Ui_Menu_Base* ui=new Ui_Menu_Base(a);\
-            return (Ui_Base*)ui->addItem(#childType "!:app");\
-        }\
+        childType* app=static_cast<childType*>(a);\
+        return (Ui_Base*)new Ui_ValueEditor<int>(a,&(app->member));\
     }\
 
 template<typename Data>
@@ -49,7 +45,7 @@ public:
     virtual void HandleDelta(int8_t delta){
         switch (currentState) {
         case state::drawVal:
-            EditedVal+=pitch*delta;
+            *EditedVal+=pitch*delta;
             break;
         case state::menu:
             break;
