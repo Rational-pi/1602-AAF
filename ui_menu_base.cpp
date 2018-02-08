@@ -56,10 +56,12 @@ void Ui_Menu_Base::HandleDelta(int8_t delta){
 
 Ui_Menu_Base::Ui_Menu_Base(App *app):Ui_Base(app),pose(0){}
 
-void Ui_Menu_Base::addItem(const char* sting, UiFactory Fac){
+Ui_Menu_Base *Ui_Menu_Base::addItem(const char* sting, UiFactory Fac){
     actionVector.push_back(Action{sting,Fac});
+    return this;
 }
 
-void Ui_Menu_Base::addItem(const char* sting){
+Ui_Menu_Base *Ui_Menu_Base::addItem(const char* sting){
     actionVector.push_back(Action{sting,nullptr});
+    return this;
 }

@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_base.h"
 #include "vector.h"
 
+#define BaseBuilder [](App* a){return new Ui_Base(a);}
+
 class Ui_Menu_Base : public Ui_Base
 {
     typedef Ui_Base*(*UiFactory)(App*) ;
@@ -36,9 +38,8 @@ public:
     virtual void HandleClick();
     virtual void HandleDelta(int8_t delta);
     Ui_Menu_Base(App *app);
-    void addItem(const char* sting, UiFactory Fac);
-protected:
-    void addItem(const char *sting);
+    Ui_Menu_Base* addItem(const char* sting, UiFactory Fac);
+    Ui_Menu_Base* addItem(const char *sting);
 
 };
 
