@@ -13,7 +13,6 @@
 template<typename Data>
 struct Ui_ValueEditor : public Ui_Base
 {
-public:
     Ui_ValueEditor(App *app,Data *EditedVal):
         Ui_Base(app),
         EditedVal(EditedVal),
@@ -72,8 +71,6 @@ public:
         }
         needRendering=true;
     }
-
-
     float pitch;
 private:
     bool DataIsInteger;
